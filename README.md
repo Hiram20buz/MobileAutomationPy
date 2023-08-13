@@ -14,3 +14,6 @@ appium --address 0.0.0.0 --port 4724
 
 pip install -r requirements.txt
 
+
+
+https://stackoverflow.com/questions/76361049/how-to-fix-typeerror-not-supported-between-instances-of-str-and-int-wh
