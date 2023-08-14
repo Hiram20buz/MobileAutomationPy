@@ -9,6 +9,7 @@ import numpy
 import time
 from mss import mss
 
+
 adb = Client(host='127.0.0.1', port=5037)
 devices = adb.devices()
 
@@ -66,10 +67,16 @@ driver = webdriver.Remote(appium_server_url, desired_capabilities)
 app_package = 'app.simone'  # Replace with the package name of your app
 driver.activate_app(app_package)
 time.sleep(10)
-
 xpath_to_click = "//android.widget.Button[@text='Not now']"
-element = driver.find_element(MobileBy.XPATH, xpath_to_click)
-element.click()
+try:
+    element = driver.find_element(MobileBy.XPATH, xpath_to_click)
+    if element.is_displayed():
+        element.click()
+        print("Element clicked successfully.")
+    else:
+        print("Element is not displayed.")
+except Exception as e:
+    print("Error:", e)
 time.sleep(1)
 
 xpath_to_click = "//android.widget.TextView[@text='arcade']"
@@ -91,7 +98,6 @@ print("Middle coordinates:", middle_x, middle_y)
 
 # Create a TouchAction instance and perform the tap action at the middle of the screen
 tap_action = TouchAction(driver)
-tap_action.tap(x=middle_x, y=middle_y).perform()
 # Dictionary with color and corresponding coordinates
 color_coordinates = {
     'green': (screen_width // 4, screen_height // 4),
@@ -99,7 +105,7 @@ color_coordinates = {
     'blue': (screen_width // 2 + screen_width // 4, screen_height // 2 + screen_height // 4),
     'yellow': (screen_width // 4, screen_height // 2 + screen_height // 4),  
 }
-
+tap_action.tap(x=middle_x, y=middle_y).perform()
 time.sleep(.5)
 
 g = { 'left': 761, 'top': 271, 'width': 1, 'height': 1 }
@@ -124,24 +130,28 @@ def detect_next():
         yellow_r = yellow_pixel[0][0][2]
         red_r = red_pixel[0][0][2]
         blue_r = blue_pixel[0][0][2]
-
+        print(green_r,yellow_r,red_r,blue_r)
+        
         if not detecting and \
-            green_r > 10 and \
-            yellow_r > 10 and \
-            red_r > 10 and \
-            blue_r > 10:
+            green_r < 186 and \
+            yellow_r > 236 and \
+            red_r < 221 and \
+            blue_r < 162:
             detecting = True
-
+        
         if not detecting:
             continue
-
-        if 1 <= green_r <= 10:
+        
+        if green_r > 124 :
             return 'g'
-        if 1 <= yellow_r <= 10:
+            
+        if yellow_r < 249 :
             return 'y'
-        if 1 <= red_r <= 10:
+            
+        if red_r > 220 :
             return 'r'
-        if 1 <= blue_r <= 10:
+            
+        if blue_r > 81 :
             return 'b'
 
 moves = 1
@@ -156,7 +166,7 @@ while True:
 
     print(colors)
 
-    time.sleep(1)
+    time.sleep(0.5)
 
     for color in colors:
         if color == 'g':
