@@ -2,7 +2,6 @@ import pyautogui
 from PIL import ImageGrab
 import time
 
-
 # Define the pixel coordinates you want to grab
 x, y = 761, 271
 
