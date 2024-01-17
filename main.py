@@ -10,7 +10,6 @@ import numpy
 import time
 from mss import mss
 
-
 adb = Client(host='127.0.0.1', port=5037)
 devices = adb.devices()
 
