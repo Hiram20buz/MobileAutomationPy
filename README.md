@@ -21,4 +21,3 @@ https://stackoverflow.com/questions/59732947/taking-screenshot-in-python-not-wor
 
 
 Run pkill -9 -f appium in the Terminal.
-
